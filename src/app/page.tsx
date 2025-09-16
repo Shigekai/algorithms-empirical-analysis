@@ -1,30 +1,57 @@
+"use client";
+
+import { useState } from "react";
+import { getEmpiricalData } from "@/app/actions/getEmpiricalData";
 import { ChartBarInteractive } from "@/components/ChartBarInteractive";
-import { algorithmMetrics } from "@/mocks/algoDataMock";
+import { MetricData } from "@/mocks/algoDataMock";
 
-export default function Home() {
+export default function AlgorithmAnalysisPage() {
+  const [metrics, setMetrics] = useState<MetricData[] | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const runAnalysis = async () => {
+    setLoading(true);
+    try {
+      const randomArray = Array.from({ length: 5000 }, () =>
+        Math.floor(Math.random() * 10000)
+      );
+
+      const results = await getEmpiricalData(randomArray);
+      setMetrics(results);
+    } catch (error) {
+      console.error("Error running analysis:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen w-full p-4 md:p-8 bg-[#0A0A0A]">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold text-white mb-6">
-          Sorting Algorithm Analysis
-        </h1>
-        <p className="text-gray-300 mb-8">
-          Comparison of different sorting algorithms across key performance
-          metrics.
-        </p>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl text-white font-bold mb-4">
+        Sorting Algorithm Analysis
+      </h1>
 
-        {algorithmMetrics.map((metricData, index) => (
-          <div key={index} className="mb-12">
-            <h2 className="text-2xl font-semibold text-white mb-2">
-              {metricData.metric}
-            </h2>
-            <p className="text-gray-400 mb-4">{metricData.description}</p>
-            <div className="bg-[#0A0A0A] rounded-lg overflow-hidden">
+      <button
+        onClick={runAnalysis}
+        disabled={loading}
+        className="px-4 py-2 bg-white text-black font-semibold rounded mb-8 cursor-pointer"
+      >
+        {loading ? "Analyzing..." : "Run Analysis"}
+      </button>
+
+      {metrics && (
+        <div className="space-y-8">
+          {metrics.map((metricData, index) => (
+            <div key={index} className="mb-12">
+              <h2 className="text-xl font-semibold mb-2">
+                {metricData.metric}
+              </h2>
+              <p className="text-gray-400 mb-4">{metricData.description}</p>
               <ChartBarInteractive metricData={metricData} />
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
