@@ -1,25 +1,27 @@
 "use server";
 
-import { MetricData, algorithmMetrics } from "@/mocks/algoDataMock";
+import buildAllMetrics from "@/algo/buildAllMetrics";
+import { EntryType } from "@/components/EntryDataForm";
+import { generateEntry } from "@/functions/generateEntry";
 
 export async function getEmpiricalData(
-  inputArray: number[]
-): Promise<MetricData[]> {
+  entry: number | number[],
+  entryType?: EntryType
+) {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    let arr: number[], n: number;
 
-    const modifiedMetrics = algorithmMetrics.map((metric) => ({
-      ...metric,
-      input: inputArray.length,
-      description: metric.description.replace(
-        "5,000",
-        inputArray.length.toLocaleString()
-      ),
-    }));
+    if (Array.isArray(entry)) {
+      arr = entry.slice();
+      n = arr.length;
+    } else {
+      n = Math.max(1, Math.min(50000, Math.floor(entry)));
+      arr = generateEntry(n, entryType ?? EntryType.RANDOM);
+    }
 
-    return modifiedMetrics;
+    return buildAllMetrics(n, arr);
   } catch (error) {
-    console.error("Error processing algorithm metrics:", error);
+    console.error("[getEmpiricalData] failed:", error);
     throw new Error("Failed to analyze sorting algorithms");
   }
 }

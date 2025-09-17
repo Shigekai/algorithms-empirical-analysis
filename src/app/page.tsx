@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { getEmpiricalData } from "@/app/actions/getEmpiricalData";
 import { ChartBarInteractive } from "@/components/ChartBarInteractive";
 import { EntryDataForm, FormData } from "@/components/EntryDataForm";
-import { generateEntry } from "@/functions/generateEntry";
 import { MetricData } from "@/mocks/algoDataMock";
 
 export default function AlgorithmAnalysisPage() {
@@ -15,8 +14,10 @@ export default function AlgorithmAnalysisPage() {
   const runAnalysis = async (formData: FormData) => {
     setLoading(true);
     try {
-      const entryArray = generateEntry(formData.entrySize, formData.entryType);
-      const results = await getEmpiricalData(entryArray);
+      const results = await getEmpiricalData(
+        formData.entrySize,
+        formData.entryType
+      );
       setMetrics(results);
     } catch (error) {
       console.error("Error running analysis:", error);
