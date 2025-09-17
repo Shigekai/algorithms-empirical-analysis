@@ -1,22 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getEmpiricalData } from "@/app/actions/getEmpiricalData";
 import { ChartBarInteractive } from "@/components/ChartBarInteractive";
+import { EntryDataForm, FormData } from "@/components/EntryDataForm";
+import { generateEntry } from "@/functions/generateEntry";
 import { MetricData } from "@/mocks/algoDataMock";
 
 export default function AlgorithmAnalysisPage() {
   const [metrics, setMetrics] = useState<MetricData[] | null>(null);
   const [loading, setLoading] = useState(false);
+  const metricsRef = useRef<HTMLDivElement>(null);
 
-  const runAnalysis = async () => {
+  const runAnalysis = async (formData: FormData) => {
     setLoading(true);
     try {
-      const randomArray = Array.from({ length: 5000 }, () =>
-        Math.floor(Math.random() * 10000)
-      );
-
-      const results = await getEmpiricalData(randomArray);
+      const entryArray = generateEntry(formData.entrySize, formData.entryType);
+      const results = await getEmpiricalData(entryArray);
       setMetrics(results);
     } catch (error) {
       console.error("Error running analysis:", error);
@@ -25,27 +25,45 @@ export default function AlgorithmAnalysisPage() {
     }
   };
 
-  return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl text-white font-bold mb-4">
-        Sorting Algorithm Analysis
-      </h1>
+  useEffect(() => {
+    if (metrics && !loading && metricsRef.current) {
+      metricsRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [metrics, loading]);
 
-      <button
-        onClick={runAnalysis}
-        disabled={loading}
-        className="px-4 py-2 bg-white text-black font-semibold rounded mb-8 cursor-pointer"
-      >
-        {loading ? "Analyzing..." : "Run Analysis"}
-      </button>
+  return (
+    <div className="container mx-auto p-4 space-y-8">
+      <div className="text-center mb-8 flex flex-col gap-8 h-screen justify-center">
+        <h1 className="text-3xl text-white font-bold">
+          Sorting Algorithm Analysis
+        </h1>
+        <p className="text-gray-400">
+          Empirical analysis of sorting algorithms with configurable parameters
+        </p>
+        <div className="flex justify-center">
+          <EntryDataForm onSubmit={runAnalysis} isLoading={loading} />
+        </div>
+      </div>
 
       {metrics && (
-        <div className="space-y-8">
+        <div ref={metricsRef} className="space-y-8 py-8">
+          <div className="text-center">
+            <h2 className="text-2xl text-white font-semibold mb-2">
+              Analysis Results
+            </h2>
+            <p className="text-gray-400">
+              Performance metrics for each sorting algorithm
+            </p>
+          </div>
+
           {metrics.map((metricData, index) => (
             <div key={index} className="mb-12">
-              <h2 className="text-xl text-white font-semibold mb-2">
+              <h3 className="text-xl text-white font-semibold mb-2">
                 {metricData.metric}
-              </h2>
+              </h3>
               <p className="text-gray-400 mb-4">{metricData.description}</p>
               <ChartBarInteractive metricData={metricData} />
             </div>
