@@ -43,7 +43,7 @@ export default function AlgorithmAnalysisPage() {
         <div className="space-y-8">
           {metrics.map((metricData, index) => (
             <div key={index} className="mb-12">
-              <h2 className="text-xl font-semibold mb-2">
+              <h2 className="text-xl text-white font-semibold mb-2">
                 {metricData.metric}
               </h2>
               <p className="text-gray-400 mb-4">{metricData.description}</p>

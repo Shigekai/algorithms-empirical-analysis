@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Este projeto é uma ferramenta de análise empírica. Ao rodar os algoritmos escolhidos em tempo real, podemos observar seus resultados de maneira prática e visual para cada entrada.
 
-## Getting Started
+## Algoritmos Testados
 
-First, run the development server:
+- Insertion Sort
+- Selection Sort
+- Merge Sort
+- Heap Sort
+- Quick Sort.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Os 7 passos de uma análise empírica:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Como este projeto atende aos passos discutidos em aula
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1- **Entender o propósito do experimento**
+- Analisar e comparar o comportamento assintótico dos algoritmos escolhidos, observando seu comportamento a partir de entradas diferentes.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2- **Escolher métrica e unidade de medida**
+- Tempo de execução (ms)
+- Número de Comparações
+- Número de Trocas
+- Uso de memória (KB)
 
-## Learn More
+3- **Escolher características de amostra de entrada**
 
-To learn more about Next.js, take a look at the following resources:
+Este projeto permite escolher o número de entradas e como ela estará inicialmente ordenada.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4- **Implementação do Algoritmo**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Este projeto implementa os algoritmos assincronicamente.
 
-## Deploy on Vercel
+5- **Amostra de Entradas**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Este projeto gera amostra de entradas dinamicamente.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+6- **Executar o algoritmo e guardar os dados obtidos**
+
+Os dados da execução são exibidos visualmente na forma de um gráfico.
+
+7- **Analisar os dados obtidos**
+
+A partir da representação visual e dos dados obtidos, criamos uma análise estatística valiosa.
