@@ -30,7 +30,7 @@ export default function AlgorithmAnalysisPage() {
     if (metrics && !loading && metricsRef.current) {
       metricsRef.current.scrollIntoView({
         behavior: "smooth",
-        block: "start",
+        block: "start", 
       });
     }
   }, [metrics, loading]);

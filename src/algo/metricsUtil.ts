@@ -38,7 +38,6 @@ export function estimateMemoryKB(algo: SortName, n: number): number {
   return 4.0;
 }
 
-/** Converte o resultado de UM algoritmo para os 4 blocos MetricData esperados */
 export function toMetricDataForSingleAlgorithm(n: number, sm: SortMetricSet): MetricData[] {
   return [
     {
