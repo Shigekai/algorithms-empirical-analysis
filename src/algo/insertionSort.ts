@@ -12,11 +12,15 @@ export function measureInsertionSort(input: number[]): SortMetricSet {
     let j = i - 1;
 
     comparisons++;
+    if (a[j] <= key) {
+      continue;
+    }
+
     while (j >= 0 && a[j] > key) {
       a[j + 1] = a[j];
       writes++;
       j--;
-      if (j >= 0) comparisons++; 
+      if (j >= 0) comparisons++;
     }
 
     a[j + 1] = key;

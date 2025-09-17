@@ -5,6 +5,7 @@ import { getEmpiricalData } from "@/app/actions/getEmpiricalData";
 import { ChartBarInteractive } from "@/components/ChartBarInteractive";
 import { EntryDataForm, FormData } from "@/components/EntryDataForm";
 import { MetricData } from "@/mocks/algoDataMock";
+import { generateEntry } from "@/functions/generateEntry";
 
 export default function AlgorithmAnalysisPage() {
   const [metrics, setMetrics] = useState<MetricData[] | null>(null);
@@ -14,10 +15,9 @@ export default function AlgorithmAnalysisPage() {
   const runAnalysis = async (formData: FormData) => {
     setLoading(true);
     try {
-      const results = await getEmpiricalData(
-        formData.entrySize,
-        formData.entryType
-      );
+      const entryArray = generateEntry(formData.entrySize, formData.entryType);
+
+      const results = await getEmpiricalData(entryArray);
       setMetrics(results);
     } catch (error) {
       console.error("Error running analysis:", error);
@@ -30,7 +30,7 @@ export default function AlgorithmAnalysisPage() {
     if (metrics && !loading && metricsRef.current) {
       metricsRef.current.scrollIntoView({
         behavior: "smooth",
-        block: "start", 
+        block: "start",
       });
     }
   }, [metrics, loading]);
