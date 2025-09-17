@@ -8,7 +8,7 @@ Este projeto é uma ferramenta de análise empírica. Ao rodar os algoritmos esc
 - Heap Sort
 - Quick Sort.
 
-## Os 7 passos de uma análise empírica:
+## Os 7 passos de uma análise empírica no nosso projeto:
 
 Como este projeto atende aos passos discutidos em aula
 
